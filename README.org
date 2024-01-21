@@ -1,0 +1,2 @@
+* Scrappy emacs config
+ My own try at setting up some minimal emacs config, with the help and base of the system crafter efs series!

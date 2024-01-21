@@ -1,0 +1,15 @@
+** What I want from config:
+*** basics
+
+*** extended
+**** tools
+***** org
+***** org-roam
+***** org-ui
+***** treemacs 
+
+*** notes
+**** packages
+***** command-log-mode
+Logs all commands / keypresses/ mouse
+that you do in a buffer for you or others to see
