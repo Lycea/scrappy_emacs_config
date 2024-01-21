@@ -105,6 +105,11 @@
 
 
 ;;---
+;;all the icons setup
+;; first time run all-the-icons-install-fonts
+(use-package all-the-icons)
+
+;;---
 ;;DOOM modeline
   (use-package doom-modeline
   :ensure t
@@ -149,3 +154,67 @@
   ([remap describe-key] . helpful-key))
 
 
+;;fancy key bindings - always available ones
+(global-set-key (kbd "C-<tab>") 'counsel-switch-buffer )
+
+
+;;local per mode keys
+;; (define-key  MAP KEY DEF)
+
+
+;;unset mark key ... it is not needed atm
+;(keymap-global-unset  "C-SPC" )
+
+
+
+;;setup via general
+(use-package general
+
+;;setup own main key!
+:config
+(general-create-definer my_conf/leader-keys
+  :keymaps '(normal insert visual emacs)
+  :prefix "SPC"
+  :global-prefix "C-SPC")
+
+(my_conf/leader-keys
+ "t" '(:ignore t :which-key "toggles")
+ "tt" '(counsel-load-theme :which-key "choose theme")))
+
+
+;;-----------
+;; EVIL setup
+
+(defun my_config/evil-hook ()
+  (dolist (mode '(custom-mode
+		  eshell-mode
+		  git-rebase-mode
+		  erc-mode
+		  circe-server-mode
+		  circe-chat-mode
+		  circe-query-mode
+		  sauron-mode
+		  term-mode))
+    (add-to-list 'evil-emacs-state-modes mode)))
+
+(use-package evil
+  :init
+  (setq evil-want-integration t)
+  (setq evil-want-keybinding nil)
+  (setq evil-want-C-u-scroll nil)
+  (setq evil-want-C-i-jump nil)
+  :hook
+  (evil-mode . my_config/evil-hook)
+  :config
+  (evil-mode 1)
+;;  (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
+;;  (define-key evil-insert-state-map (kbd "C-h") 'evil-delete-backward-char-and-join)
+  (evil-set-initial-state 'message-buffer-mode 'normal)
+  (evil-set-initial-state 'dashboard-mode 'normal)
+	  
+  )
+
+(use-package evil-collection
+  :after evil
+  :config
+  (evil-collection-init))
