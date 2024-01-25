@@ -1,63 +1,26 @@
-;;================================
-;; BASE SETTINGS
-;;----
-
-;; Don't show startup screen
-(setq inhibit-startup-screen t)
-
-;;disable various parts of ui (unneeded)
-(scroll-bar-mode -1)
-(tool-bar-mode -1)
-(tooltip-mode t)
-(set-fringe-mode 10)
-(menu-bar-mode -1)
-
-(display-line-numbers-mode)
-
-;;line numbers
-(column-number-mode)
-(global-display-line-numbers-mode t)
-(dolist (mode '(org-mode-hook
-		term-mode-hook
-		eshell-mode-hook
-		shell-mode-hook))
-  (add-hook mode (lambda () (display-line-numbers-mode 0))))
+(message "\n\n====================")
+(message "LOADING UP CONFIG")
+(message "------")
 
 
-;;set font size / type (have to check it works ....)
-;;TODO: fix
-(set-face-attribute 'default nil :font "Hack Nerd Font" :height  100)
+(message "load main helpers...")
+(load-file "modules/scrappy.el")
 
-;;set theming
-;;(load-theme 'leuven-dark)
+(setq scrappy/default_modules_path "modules" )
 
+(message "load modules ...")
+(scrappy/load_modules '(
+			"base_settings"
+			"packaging_setup"
+			"theming"
+			))
 
+(message "module loading done ...")
 
-;;single key cancle
-(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+;;(load-file "modules/base_settings.el")
+;;(load-file "modules/packaging_setup.el")
 
-;;====================
-;; PACKAGING SETUP
-;;----
-
-;;setup base packaging / package installer
-(require 'package)
-(setq package-archives '(("melpa" . "https://melpa.org/packages/")
-			 ("org" . "https://orgmode.org/elpa/")
-			 ("elpa" . "https://elpa.gnu.org/packages/")))
-
-;;load available packages
-(package-initialize)
-;;get packge infos if not there
-(unless package-archive-contents
-  (package-refresh-contents))
-
-;;install use-package if not installed
-(unless (package-installed-p 'use-package)
-  (package-install 'use-package))
-
-(require 'use-package)
-(setq use-package-always-ensure t)
+;;(load-file "modules/theming.el")
 
 
 ;;====================
@@ -103,24 +66,6 @@
   :init
   (ivy-rich-mode 1))
 
-
-;;---
-;;all the icons setup
-;; first time run all-the-icons-install-fonts
-(use-package all-the-icons)
-
-;;---
-;;DOOM modeline
-  (use-package doom-modeline
-  :ensure t
-  :init (doom-modeline-mode 1)
-  )
-
-
-(use-package doom-themes)
-(use-package monokai-theme)
-
-(load-theme 'monokai t)
 
 ;;--------
 ;; OTHERS
@@ -185,8 +130,18 @@
   "w" '(:ignore t :which-key "window")
   "w-" '(evil-window-split :which-key "split horizontally")
   "w/" '(evil-window-vsplit :which-key "split horizontally")
+  "wd" '(delete-window :which-key "delete window (not buffer)")
   )
+(my_conf/leader-keys
+  "e" '(:ignore t :which-key "eval")
+  "eb" '(eval-buffer :which-key "eval buffer")
+  "ed" '(eval-defun :which-key "eval defun")
+  "ee" '(eval-expression :which-key "eval expression"))
 
+(my_conf/leader-keys
+  "f" '(:ignore t :which-key "file")
+  "ff" '( counsel-find-file :which-key "find file")
+) 
 
 ;;-----------
 ;; EVIL setup
@@ -236,3 +191,8 @@
 
 (my_conf/leader-keys
   "ts" '(hydra-text-scale/body :which-key "scale text"))
+
+
+
+(message "======> CONFIG LOADING DONE <=======")
+(message "====================================")
