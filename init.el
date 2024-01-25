@@ -26,7 +26,7 @@
 
 ;;set font size / type (have to check it works ....)
 ;;TODO: fix
-;;(set-fae-attribute 'default nil :font "Hack Nerd Font" :height = 500)
+(set-face-attribute 'default nil :font "Hack Nerd Font" :height  100)
 
 ;;set theming
 ;;(load-theme 'leuven-dark)
@@ -181,6 +181,12 @@
  "t" '(:ignore t :which-key "toggles")
  "tt" '(counsel-load-theme :which-key "choose theme")))
 
+(my_conf/leader-keys
+  "w" '(:ignore t :which-key "window")
+  "w-" '(evil-window-split :which-key "split horizontally")
+  "w/" '(evil-window-vsplit :which-key "split horizontally")
+  )
+
 
 ;;-----------
 ;; EVIL setup
@@ -203,19 +209,30 @@
   (setq evil-want-keybinding nil)
   (setq evil-want-C-u-scroll nil)
   (setq evil-want-C-i-jump nil)
-  :hook
-  (evil-mode . my_config/evil-hook)
+  ;;:hook
+  ;;(evil-mode . my_config/evil-hook)
   :config
   (evil-mode 1)
-;;  (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
+  (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
 ;;  (define-key evil-insert-state-map (kbd "C-h") 'evil-delete-backward-char-and-join)
-  (evil-set-initial-state 'message-buffer-mode 'normal)
-  (evil-set-initial-state 'dashboard-mode 'normal)
-	  
-  )
+  (evil-set-initial-state 'messages-buffer-mode 'normal)
+  (evil-set-initial-state 'dashboard-mode 'normal))
 
 (use-package evil-collection
   :after evil
   :config
   (evil-collection-init))
 
+(use-package evil-nerd-commenter)
+
+;;hydra install and sample usage
+(use-package hydra)
+
+(defhydra hydra-text-scale (:timeout 4)
+  "scale text"
+  ("j" text-scale-increase "in")
+  ("k" text-scale-decrease "out")
+  ("f" nil "finished" :exit t))
+
+(my_conf/leader-keys
+  "ts" '(hydra-text-scale/body :which-key "scale text"))
