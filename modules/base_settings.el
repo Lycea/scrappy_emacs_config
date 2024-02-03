@@ -12,6 +12,9 @@
 (set-fringe-mode 10)
 (menu-bar-mode -1)
 
+					;enable recentf-mode
+(recentf-mode t)
+
 (display-line-numbers-mode)
 
 ;;line numbers
