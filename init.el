@@ -22,6 +22,7 @@
 			"misc_setup"
 			"ivy_setup"
 			"evil_setup"
+			"treemacs_setup"
 			))
 
 (message "module loading done ...")
@@ -56,24 +57,21 @@
 
 (setq my_list recentf-list)
 (setq cnt 1)
-(while my_list
+(catch 'list_done
+  (while my_list
     (setq tmp_val (car my_list))
     (insert  "- [[" tmp_val "][" tmp_val "]]"  "\n")
 
     (setq my_list (cdr my_list))
     (setq cnt (+ cnt 1))
     (if (> cnt 5)
-	(return)
+	(throw 'list_done t)
       )
-)
-
-;;(while recentf-listf
+    )
+  )
   
-
-
-
-
 (org-mode)
+(org-cycle)
 (read-only-mode)
 
 (message "======> CONFIG LOADING DONE <=======")

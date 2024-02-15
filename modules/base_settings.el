@@ -23,13 +23,15 @@
 (dolist (mode '(org-mode-hook
 		term-mode-hook
 		eshell-mode-hook
-		shell-mode-hook))
+		shell-mode-hook
+		treemacs-mode-hook
+		))
   (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
 
 ;;set font size / type (have to check it works ....)
 ;;TODO: fix
-(set-face-attribute 'default nil :font "Hack Nerd Font" :height  100)
+(set-face-attribute 'default nil :font "Hack Nerd Font" :height  75)
 
 ;;set theming
 ;;(load-theme 'leuven-dark)

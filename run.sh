@@ -1,4 +1,4 @@
-cd ~/.my_scripts/emacs_config
+cd ~/.my_scripts/scrappy_emacs_config
 
-emacs -Q --load local_tweak.el --load init.el
+emacs28 -Q --load local_tweak.el --load init.el
 
